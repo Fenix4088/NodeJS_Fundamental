@@ -8,6 +8,20 @@ console.log(os.cpus().length);
 
 const cpus = os.cpus();
 
-for (let i = 0; i < cpus.length - 2; i++) {
-  const CPUcore = cpus[i];
+if (cluster.isPrimary) {
+  for (let i = 0; i < cpus.length - 2; i++) {
+    cluster.fork();
+  }
+
+  cluster.on('exit', (worker, code, signal) => {
+    console.log(`Worker with pid ${worker.process.pid} died`);
+
+    cluster.fork();
+  });
+} else {
+  console.log(process.pid);
+
+  setTimeout(() => {
+    console.log(`Process ${process.pid} still working`);
+  }, 5000);
 }
