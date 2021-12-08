@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node src/process.ts",
+    "start": "nodemon --inspect index.ts",
     "start_fs": "TEST=hello ts-node src/file-system.ts",
     "build": "tsc"
   },
