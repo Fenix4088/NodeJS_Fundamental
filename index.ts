@@ -1,55 +1,23 @@
-import http from 'http';
-
-const PORT = process.env.PORT || 5000;
-
-type IEndpoints = {
-      [k in `/${string}`]: IEndpointsContent
-}
-
-type IEndpointsContent = {
-      [k in TCrudTitles]: () => void
-}
-
-type TCrudTitles = 'GET' | 'POST' | 'DELETE';
+import Router from './src/framework/Router';
+import Application from './src/framework/Application';
 
 
-class Router {
-      readonly endpoints: IEndpoints
-      constructor() {
-            this.endpoints = {
-                  '/users': {
-                        'GET': () => {},
-                        'POST': () => {},
-                        'DELETE': () => {}
-                  }
-            } 
-      }
+const PORT = process.env.PORT || 8080;
 
-      request: () => {
+//! Create app
+const app = new Application();
 
-      }
-}
+// ! Create router
+const router = new Router();
 
-
-const server = http.createServer((req, res) => {
-
-      res.writeHead(200, {
-            'Content-type': 'application/json'
-      })
-      
-      if(req.url === '/users') {
-            return res.end(JSON.stringify({
-                  id: 1,
-                  name: 'User'
-            }))
-      }
-
-      if(req.url === '/posts') {
-            return res.end('POSTS')
-      }
-      
+router.get('/users', (req, res) => {
+  res.end('Request to /users');
 });
 
-server.listen(PORT, () => {
-      console.log(`Server started ${PORT}`);
+router.get('/posts', (req, res) => {
+  res.end('Request to /posts');
 });
+
+app.addRouter(router);
+
+app.listen(PORT, () => {});

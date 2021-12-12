@@ -47,5 +47,5 @@ http.createServer((req, res) => {
   // stream.on('data', (chunk) => res.write(chunk));
   // stream.on('data', (chunk) => res.write(chunk));
 
-  stream.pipe(res)
+  stream.pipe(res);
 });
