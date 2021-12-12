@@ -1,4 +1,4 @@
-import { TRequestHandler } from './../framework/types';
+import { TRequestHandler } from './types';
 export const parseJson: TRequestHandler = (req, res) => {
   //@ts-ignore
   res.send = (data) => {

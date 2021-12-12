@@ -9,11 +9,19 @@ const users = [
 
 router.get('/users', (req, res) => {
   //@ts-ignore
+  if(req.param.id) {
+        //@ts-ignore
+        return res.send(users.find(user => user.id == req.params.id))
+  }
+
+  //@ts-ignore
   res.send(users);
 });
 
-router.get('/posts', (req, res) => {
-      debugger;
+router.post('/users', (req, res) => {
+  //@ts-ignore
+  users.push(req.body);
+
   //@ts-ignore
   res.send(users);
 });
