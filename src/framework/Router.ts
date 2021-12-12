@@ -20,14 +20,11 @@ export default class Router {
         const endpoint = this.endpoints[path];
     
         if (endpoint[method]) {
-          throw new Error(`Method ${method} alredy exciste in ${path}`);
+          throw new Error(`Route ${path} alredy exciste`);
         }
     
         endpoint[method] = handler;
-    
-        // emitter.on(`[${path}]:[${method}]`, (req: IncomingMessage, res: ServerResponse) => {
-        //   handler(req, res);
-        // });
+
       };
     
       public get(path: keyof IEndpoints, handler: TRequestHandler) {

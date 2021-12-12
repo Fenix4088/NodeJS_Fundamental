@@ -1,15 +1,21 @@
 import { EventEmitter } from 'events';
 import http, { IncomingMessage, Server, ServerResponse } from 'http';
 import Router  from './Router';
-import { IEndpoints, IEndpointsContent, TCrudTitles } from './types';
+import { IEndpoints, IEndpointsContent, TCrudTitles, TRequestHandler } from './types';
 
 export default class Application {
   emitter: EventEmitter;
   server: Server;
+  middlewares: TRequestHandler[]
 
   constructor() {
     this.emitter = new EventEmitter();
     this.server = this.createServer();
+    this.middlewares = []
+  }
+
+  public use = (middleware: TRequestHandler) => {
+        this.middlewares.push(middleware);
   }
 
   public listen = (port: number | string, callback: () => void) => {
@@ -28,6 +34,7 @@ export default class Application {
         const handler = endpoint[method];
 
         this.emitter.on(this.getRouteMask(path, method), (req: IncomingMessage, res: ServerResponse) => {
+            this.middlewares.forEach(middleware => middleware(req, res))  
             handler && handler(req, res);
         });
       });
